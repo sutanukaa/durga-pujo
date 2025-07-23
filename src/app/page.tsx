@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { jarallax } from 'jarallax';
 import 'jarallax/dist/jarallax.css'; // Import Jarallax CSS
 import Image from 'next/image';
@@ -53,8 +53,9 @@ function Hero() {
     // as it is not an exported function. The script runs on import.
 
     // Initialize Jarallax on the main container
-    if (jarallaxRef.current) {
-      jarallax(jarallaxRef.current, {
+    const currentRef = jarallaxRef.current;
+    if (currentRef) {
+      jarallax(currentRef, {
         speed: 0.2, // Adjust the parallax speed of the background
         imgSrc: '/background.jpg', // Using background.jpg from the public folder
         imgSize: 'cover',
@@ -69,8 +70,8 @@ function Hero() {
 
     // Cleanup function to destroy the Jarallax instance on unmount
     return () => {
-      if (jarallaxRef.current) {
-        jarallax(jarallaxRef.current, 'destroy');
+      if (currentRef) {
+        jarallax(currentRef, 'destroy');
       }
     };
   }, []); // Empty dependency array ensures this runs once on mount
@@ -114,7 +115,7 @@ function Hero() {
           Official Travel Partner - massArt
         </p>
         <p className="mt-3 text-sm md:text-base lg:text-lg text-yellow-50/80 max-w-2xl mx-auto whitespace-nowrap px-4">
-          Experience the magic of Durga Puja through Spectra's specially curated guided Art Tours
+          Experience the magic of Durga Puja through Spectra&apos;s specially curated guided Art Tours
         </p>
       </div>
 
