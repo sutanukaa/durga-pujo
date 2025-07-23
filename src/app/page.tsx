@@ -49,6 +49,9 @@ function Hero() {
   const jarallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Only run jarallax on client side
+    if (typeof window === 'undefined') return;
+    
     // The import itself handles registration. You don't need to call jarallaxElement()
     // as it is not an exported function. The script runs on import.
 
@@ -131,6 +134,9 @@ function Hero() {
 export default function Home() {
   // Effect for scroll-triggered animations
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === 'undefined') return;
+    
     const checkVisibility = () => {
       const aboutSection = document.getElementById('about-section');
       if (aboutSection) {
@@ -284,17 +290,22 @@ export default function Home() {
       }
     };
 
-    // Add event listeners for both scroll and resize events
-    window.addEventListener('scroll', checkVisibility);
-    window.addEventListener('resize', checkVisibility);
-    
-    // Check visibility on initial load
-    // Use a longer delay to ensure DOM is fully loaded and rendered
-    setTimeout(checkVisibility, 300);
+    // Only add event listeners on client side
+    if (typeof window !== 'undefined') {
+      // Add event listeners for both scroll and resize events
+      window.addEventListener('scroll', checkVisibility);
+      window.addEventListener('resize', checkVisibility);
+      
+      // Check visibility on initial load
+      // Use a longer delay to ensure DOM is fully loaded and rendered
+      setTimeout(checkVisibility, 300);
+    }
     
     return () => {
-      window.removeEventListener('scroll', checkVisibility);
-      window.removeEventListener('resize', checkVisibility);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('scroll', checkVisibility);
+        window.removeEventListener('resize', checkVisibility);
+      }
     };
   }, []);
   
